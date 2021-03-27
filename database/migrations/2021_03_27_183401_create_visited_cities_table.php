@@ -1,11 +1,12 @@
 <?php
 
-use App\Models\Region;
+use App\Models\City;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCountriesTable extends Migration
+class CreateVisitedCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +15,11 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('visited_cities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('code', 2);
-            $table->string('capital');
-            $table->foreignIdFor(Region::class, 'region_id');
+            $table->date('visited_at')->nullable();
+            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignIdFor(City::class, 'city_id');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateCountriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('visited_cities');
     }
 }

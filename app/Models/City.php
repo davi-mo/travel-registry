@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Country extends Model
+class City extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'code', 'capital'];
+    protected $fillable = ["name"];
 
     /**
      * @return BelongsTo
      */
-    public function region() : BelongsTo
+    public function country()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Country::class);
     }
 }

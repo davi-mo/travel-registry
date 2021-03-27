@@ -67,7 +67,7 @@ class GoogleAccountService
             [
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),
-                'password' => md5(rand(1, 100000))
+                'password' => md5(rand(1, 100000)),
             ]
         );
     }
