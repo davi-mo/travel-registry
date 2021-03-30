@@ -17,6 +17,7 @@ class CreateRegionsTable extends Migration
         Schema::create('regions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->smallInteger('active')->default(0);
             $table->timestamps();
         });
 
@@ -35,10 +36,10 @@ class CreateRegionsTable extends Migration
 
     protected function fillRegionTable() : void
     {
-        DB::statement("INSERT INTO regions (name, created_at, updated_at) VALUES ('Africa', now(), now());");
-        DB::statement("INSERT INTO regions (name, created_at, updated_at) VALUES ('Americas', now(), now());");
-        DB::statement("INSERT INTO regions (name, created_at, updated_at) VALUES ('Asia', now(), now());");
-        DB::statement("INSERT INTO regions (name, created_at, updated_at) VALUES ('Europe', now(), now());");
-        DB::statement("INSERT INTO regions (name, created_at, updated_at) VALUES ('Oceania', now(), now());");
+        DB::statement("INSERT INTO regions (name, active, created_at, updated_at) VALUES ('Africa', 0, now(), now());");
+        DB::statement("INSERT INTO regions (name, active, created_at, updated_at) VALUES ('Americas', 0, now(), now());");
+        DB::statement("INSERT INTO regions (name, active, created_at, updated_at) VALUES ('Asia', 0, now(), now());");
+        DB::statement("INSERT INTO regions (name, active, created_at, updated_at) VALUES ('Europe', 1, now(), now());");
+        DB::statement("INSERT INTO regions (name, active, created_at, updated_at) VALUES ('Oceania', 0, now(), now());");
     }
 }

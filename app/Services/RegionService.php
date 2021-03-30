@@ -16,7 +16,7 @@ class RegionService
     {
         $region = Region::whereName($regionName)->first();
         if (!$region) {
-            throw new NotFoundException("$regionName not found");
+            throw NotFoundException::becauseRegionWasNotFound($regionName);
         }
 
         return $region;

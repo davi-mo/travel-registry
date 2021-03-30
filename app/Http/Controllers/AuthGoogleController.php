@@ -28,6 +28,6 @@ class AuthGoogleController
     {
         $user = $googleAccountService->getOrCreateUser($providerUser = Socialite::driver('google')->user());
         auth()->login($user);
-        return redirect()->to('/');
+        return redirect()->to('/home');
     }
 }

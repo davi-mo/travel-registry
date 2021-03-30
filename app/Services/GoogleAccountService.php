@@ -16,8 +16,8 @@ class GoogleAccountService
         if ($googleAccount) {
             return $googleAccount->user;
         } else {
-            $user = $this->getUser($providerUser) ?? $this->createUser($providerUser);
             $googleAccount = $this->mountGoogleAccount($providerUser);
+            $user = $this->getUser($providerUser) ?? $this->createUser($providerUser);
             $this->saveGoogleAccount($googleAccount, $user);
 
             return $user;

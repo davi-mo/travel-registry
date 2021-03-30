@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Exceptions\NotFoundException;
 use App\Services\RegionService;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class RegionServiceTest extends TestCase
@@ -19,7 +20,7 @@ class RegionServiceTest extends TestCase
     public function testGetRegionNotFound()
     {
         $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage("Invalid Region not found");
+        $this->expectExceptionCode(Response::HTTP_NOT_FOUND);
 
         $regionService = new RegionService();
         $regionService->getRegion("Invalid Region");

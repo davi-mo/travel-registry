@@ -19,3 +19,7 @@ Route::get('/', function () {
 
 Route::get('/login', '\App\Http\Controllers\AuthGoogleController@redirectToProvider')->name('login');
 Route::get('/callback', '\App\Http\Controllers\AuthGoogleController@handleProviderCallback')->name('callback');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', '\App\Http\Controllers\HomeController@home')->name('home');
+});
