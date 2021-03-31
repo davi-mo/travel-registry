@@ -20,6 +20,9 @@ class GoogleAccountServiceTest extends TestCase
         $this->seed();
     }
 
+    /**
+     * @covers \App\Services\GoogleAccountService::getOrCreateUser
+     */
     public function testGetAccountUser()
     {
         $abstractUser = \Mockery::mock('Laravel\Socialite\Two\User');
@@ -43,6 +46,13 @@ class GoogleAccountServiceTest extends TestCase
         $this->assertNotNull($user);
     }
 
+    /**
+     * @covers \App\Services\GoogleAccountService::getOrCreateUser
+     * @covers \App\Services\GoogleAccountService::mountGoogleAccount
+     * @covers \App\Services\GoogleAccountService::getUser
+     * @covers \App\Services\GoogleAccountService::createUser
+     * @covers \App\Services\GoogleAccountService::saveGoogleAccount
+     */
     public function testCreateUser()
     {
         $abstractUser = \Mockery::mock('Laravel\Socialite\Two\User');
@@ -71,6 +81,9 @@ class GoogleAccountServiceTest extends TestCase
         $this->assertEquals('test@test.com', $user->email);
     }
 
+    /**
+     * @covers \App\Services\GoogleAccountService::mountGoogleAccount
+     */
     public function testMountGoogleAccountService()
     {
         $abstractUser = \Mockery::mock('Laravel\Socialite\Two\User');
@@ -86,6 +99,9 @@ class GoogleAccountServiceTest extends TestCase
         $this->assertEquals("google", $googleAccount->provider);
     }
 
+    /**
+     * @covers \App\Services\GoogleAccountService::saveGoogleAccount
+     */
     public function testSaveGoogleAccount()
     {
         $googleAccountMock = \Mockery::mock(GoogleAccount::class);

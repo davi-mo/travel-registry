@@ -8,6 +8,9 @@ use Tests\TestCase;
 
 class CountryServiceTest extends TestCase
 {
+    /**
+     * @covers \App\Services\CountryService::populateCountries
+     */
     public function testPopulateCountries()
     {
         $data = [
@@ -24,6 +27,9 @@ class CountryServiceTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @covers \App\Services\CountryService::saveCountry
+     */
     public function testSaveCountry()
     {
         $countryService = new CountryService();

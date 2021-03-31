@@ -9,6 +9,9 @@ use Tests\TestCase;
 
 class RegionServiceTest extends TestCase
 {
+    /**
+     * @covers \App\Services\RegionService::getRegion
+     */
     public function testGetRegion()
     {
         $regionService = new RegionService();
@@ -17,6 +20,9 @@ class RegionServiceTest extends TestCase
         $this->assertEquals( "Europe", $region->name);
     }
 
+    /**
+     * @covers \App\Services\RegionService::getRegion
+     */
     public function testGetRegionNotFound()
     {
         $this->expectException(NotFoundException::class);

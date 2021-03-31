@@ -7,6 +7,9 @@ use Tests\TestCase;
 
 class RestCountryServiceTest extends TestCase
 {
+    /**
+     * @covers \App\Services\RestCountryService::getCountries
+     */
     public function testGetCountries()
     {
         $restCountryService = new RestCountryService();
