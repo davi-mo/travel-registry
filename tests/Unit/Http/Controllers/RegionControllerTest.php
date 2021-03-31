@@ -20,6 +20,8 @@ class RegionControllerTest extends TestCase
             ->andReturn($collectionMock);
 
         $regionController = new RegionController();
-        $regionController->getAllRegions($regionServiceMock);
+        $result = $regionController->getAllRegions($regionServiceMock);
+        $this->assertEquals("regions", $result->name());
+        $this->assertContains($collectionMock, $result->getData());
     }
 }
