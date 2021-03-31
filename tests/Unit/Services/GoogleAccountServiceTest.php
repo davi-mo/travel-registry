@@ -30,11 +30,7 @@ class GoogleAccountServiceTest extends TestCase
 
         $builderMock = \Mockery::mock('Illuminate\Database\Eloquent\Builder');
 
-        $user = new User();
-        $user->id = 12345;
-
-        $googleAccount = new GoogleAccount();
-        $googleAccount->user = $user;
+        $googleAccount = GoogleAccount::all()->first();
 
         $googleAccountMock = \Mockery::mock(GoogleAccount::class);
         $googleAccountMock->shouldReceive('whereProvider')->with('google')->andReturn($builderMock);
@@ -42,8 +38,7 @@ class GoogleAccountServiceTest extends TestCase
         $builderMock->shouldReceive('first')->withNoArgs()->andReturn($googleAccount);
 
         $googleAccountService = new GoogleAccountService();
-        $user = $googleAccountService->getOrCreateUser($abstractUser);
-        $this->assertNotNull($user);
+        $googleAccountService->getOrCreateUser($abstractUser);
     }
 
     /**

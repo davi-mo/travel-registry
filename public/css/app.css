@@ -47,6 +47,11 @@ body {
     margin-left: 50px;
 }
 
+.text-menu {
+    cursor:pointer;
+    font-size:30px;
+}
+
 #main {
     transition: margin-left .5s;
     padding: 16px;

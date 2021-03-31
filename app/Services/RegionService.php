@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\NotFoundException;
 use App\Models\Region;
+use Illuminate\Database\Eloquent\Collection;
 
 class RegionService
 {
@@ -20,5 +21,21 @@ class RegionService
         }
 
         return $region;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllRegions() : Collection
+    {
+        return Region::all();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getActiveRegions() : Collection
+    {
+        return Region::where('active', 1)->get();
     }
 }

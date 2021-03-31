@@ -31,4 +31,23 @@ class RegionServiceTest extends TestCase
         $regionService = new RegionService();
         $regionService->getRegion("Invalid Region");
     }
+
+    /**
+     * @covers \App\Services\RegionService::getAllRegions()
+     */
+    public function testGetAllRegions()
+    {
+        $regionService = new RegionService();
+        $regions = $regionService->getAllRegions();
+        $this->assertNotEmpty($regions);
+        $this->assertCount(5, $regions);
+    }
+
+    public function testGetActiveRegions()
+    {
+        $regionService = new RegionService();
+        $activeRegions = $regionService->getActiveRegions();
+        $this->assertNotEmpty($activeRegions);
+        $this->assertCount(1, $activeRegions);
+    }
 }

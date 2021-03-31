@@ -8,7 +8,11 @@ use Laravel\Socialite\Contracts\User as ProviderUser;
 
 class GoogleAccountService
 {
-    public function getOrCreateUser(ProviderUser $providerUser) : User
+    /**
+     * @param ProviderUser $providerUser
+     * @return User|null
+     */
+    public function getOrCreateUser(ProviderUser $providerUser) : ?User
     {
         $googleAccount = GoogleAccount::whereProvider('google')
             ->whereProviderUserId($providerUser->getId())
