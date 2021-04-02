@@ -5,6 +5,8 @@ namespace Tests\Unit\Http\Controllers;
 use App\Http\Controllers\RegionController;
 use App\Services\RegionService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class RegionControllerTest extends TestCase
@@ -23,5 +25,20 @@ class RegionControllerTest extends TestCase
         $result = $regionController->getAllRegions($regionServiceMock);
         $this->assertEquals("regions", $result->name());
         $this->assertContains($collectionMock, $result->getData());
+    }
+
+    public function testUpdateRegion()
+    {
+        $regionId = "1";
+        $regionServiceMock = \Mockery::mock(RegionService::class);
+        $regionServiceMock->shouldReceive('activeInactiveRegion')
+            ->once()
+            ->with($regionId)
+            ->andReturnNull();
+
+        $regionController = new RegionController();
+        $response = $regionController->updateRegion($regionId, $regionServiceMock);
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
     }
 }

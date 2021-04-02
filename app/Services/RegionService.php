@@ -38,4 +38,24 @@ class RegionService
     {
         return Region::where('active', 1)->get();
     }
+
+    /**
+     * @param string $regionId
+     * @return Region|null
+     */
+    public function getRegionById(string $regionId) : ?Region
+    {
+        return Region::find($regionId);
+    }
+
+    /**
+     * @param string $regionId
+     */
+    public function activeInactiveRegion(string $regionId)
+    {
+        $region = $this->getRegionById($regionId);
+        $region->active = $region->active == 0 ? 1 : 0;
+        $region->updated_at = now();
+        $region->save();
+    }
 }

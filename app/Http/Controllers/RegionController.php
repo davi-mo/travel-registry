@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\RegionService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class RegionController extends Controller
@@ -15,5 +16,16 @@ class RegionController extends Controller
     {
         $regions = $regionService->getAllRegions();
         return view("regions")->with("regions", $regions);
+    }
+
+    /**
+     * @param string $regionId
+     * @param RegionService $regionService
+     * @return RedirectResponse
+     */
+    public function updateRegion(string $regionId, RegionService $regionService) : RedirectResponse
+    {
+        $regionService->activeInactiveRegion($regionId);
+        return redirect()->to('/regions');
     }
 }
