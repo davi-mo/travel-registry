@@ -18,4 +18,11 @@ class NotFoundException extends BaseException
         $regionNotFound->setDetail("$regionName was not found.");
         return $regionNotFound;
     }
+
+    public static function becauseRegionIsInvalid() : NotFoundException
+    {
+        $invalidRegion = new NotFoundException();
+        $invalidRegion->setDetail("The region is invalid");
+        return $invalidRegion;
+    }
 }

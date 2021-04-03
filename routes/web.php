@@ -23,5 +23,7 @@ Route::get('/callback', '\App\Http\Controllers\AuthGoogleController@handleProvid
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', '\App\Http\Controllers\HomeController@home')->name('home');
     Route::get('/regions', '\App\Http\Controllers\RegionController@getAllRegions')->name('getAllRegions');
-    Route::get('/region/{regionId}/update', '\App\Http\Controllers\RegionController@updateRegion')->name('updateRegion');
+    Route::group(['middleware' => ['existing-region']], function () {
+        Route::put('/region/{regionId}/update', '\App\Http\Controllers\RegionController@updateRegion')->name('updateRegion');
+    });
 });

@@ -43,6 +43,7 @@ class BaseException extends \DomainException
     public function setHttpStatusCode(int $httpStatusCode): void
     {
         $this->httpStatusCode = $httpStatusCode;
+        $this->code = $httpStatusCode;
     }
 
     /**
@@ -59,6 +60,7 @@ class BaseException extends \DomainException
     public function setDetail(string $detail): void
     {
         $this->detail = $detail;
+        $this->message = $detail;
     }
 
     /**

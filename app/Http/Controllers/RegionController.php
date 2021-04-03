@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\RegionService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
 class RegionController extends Controller
 {

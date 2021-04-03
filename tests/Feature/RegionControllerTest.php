@@ -19,6 +19,9 @@ class RegionControllerTest extends TestCase
         $this->seed();
     }
 
+    /**
+     * @covers \App\Http\Controllers\RegionController::getAllRegions
+     */
     public function testGetAllRegions()
     {
         $user = User::all()->first();
@@ -28,6 +31,9 @@ class RegionControllerTest extends TestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    /**
+     * @covers \App\Http\Controllers\RegionController::updateRegion
+     */
     public function testUpdateRegion()
     {
         $user = User::all()->first();
@@ -35,8 +41,18 @@ class RegionControllerTest extends TestCase
 
         $region = Region::all()->first();
 
-        $response = $this->get(route('updateRegion', ['regionId' => $region->id]));
+        $response = $this->put(route('updateRegion', ['regionId' => $region->id]));
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertInstanceOf(RedirectResponse::class, $response->baseResponse);
+    }
+
+    public function testUpdateWithInvalidRegion()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->put(route('updateRegion', ['regionId' => "9999"]));
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The region is invalid", $response->exception->getMessage());
     }
 }

@@ -18,7 +18,7 @@ class HomeControllerTest extends TestCase
     }
 
     /**
-     * @covers \App\Http\Controllers\HomeController::home()
+     * @covers \App\Http\Controllers\HomeController::home
      */
     public function testGetHome()
     {

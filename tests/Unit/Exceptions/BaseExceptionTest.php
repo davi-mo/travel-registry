@@ -70,6 +70,7 @@ class BaseExceptionTest extends TestCase
         $baseException->setHttpStatusCode(Response::HTTP_BAD_REQUEST);
 
         $this->assertSame(Response::HTTP_BAD_REQUEST, $baseException->getHttpStatusCode());
+        $this->assertSame(Response::HTTP_BAD_REQUEST, $baseException->getCode());
     }
 
     /**

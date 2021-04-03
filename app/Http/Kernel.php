@@ -43,6 +43,10 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'existing-region' => [
+            \App\Http\Middleware\VerifyExistingRegion::class
+        ],
     ];
 
     /**
