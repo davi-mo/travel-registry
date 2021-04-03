@@ -39,4 +39,27 @@ class CountryServiceTest extends TestCase
         $this->assertNotNull($country);
         $this->assertNotNull($country->id);
     }
+
+    /**
+     * @covers \App\Services\CountryService::getByName
+     */
+    public function testGetByNameNotFound()
+    {
+        $countryService = new CountryService();
+        $country = $countryService->getByName("unit-test");
+        $this->assertNull($country);
+    }
+
+    /**
+     * @covers \App\Services\CountryService::getByName
+     */
+    public function testGetByName()
+    {
+        $country = Country::all()->first();
+
+        $countryService = new CountryService();
+        $returnedCountry = $countryService->getByName($country->name);
+        $this->assertNotNull($returnedCountry);
+        $this->assertEquals($country, $returnedCountry);
+    }
 }

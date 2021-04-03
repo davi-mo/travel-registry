@@ -7,14 +7,25 @@ use App\Models\Region;
 
 class CountryService
 {
+    protected const DIFFERENT_COUNTRY_NAMES = [
+        "Åland Islands" => "Aland Islands",
+        "Macedonia (the former Yugoslav Republic of)" => "Macedonia",
+        "Moldova (Republic of)" => "Moldova",
+        "Republic of Kosovo" => "Kosovo",
+        "Russian Federation" => "Russia",
+        "United Kingdom of Great Britain and Northern Ireland" => "United Kingdom"
+    ];
+
     /**
      * @param array $data
      */
     public function populateCountries(array $data) : void
     {
         foreach ($data as $countries) {
+            $countryName = isset($this::DIFFERENT_COUNTRY_NAMES[$countries['name']]) ?
+                $this::DIFFERENT_COUNTRY_NAMES[$countries['name']] : $countries['name'];
             $this->saveCountry(
-                $countries['name'],
+                $countryName,
                 $countries['alpha2Code'],
                 $countries['capital'],
                 $countries['region'],
@@ -41,5 +52,14 @@ class CountryService
             $country->region_id = $region->id;
             $country->save();
         }
+    }
+
+    /**
+     * @param string $name
+     * @return Country|null
+     */
+    public function getByName(string $name) : ?Country
+    {
+        return Country::whereName($name)->first();
     }
 }
