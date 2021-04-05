@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Country;
 use App\Models\Region;
+use Illuminate\Database\Eloquent\Collection;
 
 class CountryService
 {
@@ -61,5 +62,14 @@ class CountryService
     public function getByName(string $name) : ?Country
     {
         return Country::whereName($name)->first();
+    }
+
+    /**
+     * @param string $regionId
+     * @return Collection
+     */
+    public function getByRegion(string $regionId) : Collection
+    {
+        return Country::where('region_id', $regionId)->get();
     }
 }

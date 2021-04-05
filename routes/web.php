@@ -26,4 +26,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['existing-region']], function () {
         Route::put('/region/{regionId}/update', '\App\Http\Controllers\RegionController@updateRegion')->name('updateRegion');
     });
+    Route::get('/regions/countries', '\App\Http\Controllers\RegionController@getActiveRegions')->name('getActiveRegions');
+    Route::post('/countries', '\App\Http\Controllers\CountryController@getCountriesByRegion')->name('getCountriesByRegion');
 });

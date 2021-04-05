@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Country;
+use App\Models\Region;
 use App\Services\CountryService;
 use Tests\TestCase;
 
@@ -61,5 +62,16 @@ class CountryServiceTest extends TestCase
         $returnedCountry = $countryService->getByName($country->name);
         $this->assertNotNull($returnedCountry);
         $this->assertEquals($country, $returnedCountry);
+    }
+
+    /**
+     * @covers \App\Services\CountryService::getByRegion
+     */
+    public function testGetByRegion()
+    {
+        $country = Country::all()->first();
+        $countryService = new CountryService();
+        $countries = $countryService->getByRegion($country->region_id);
+        $this->assertNotNull($countries);
     }
 }
