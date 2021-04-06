@@ -1,7 +1,7 @@
 @extends('overview')
 @section('content')
     @include('main')
-    <div id="form">
+    <div id="form" class="form">
         <div>
             <p>To see the countries, select a region bellow:</p>
         </div>
@@ -9,8 +9,8 @@
             @csrf
             @method('POST')
             <div class="form-group">
-                <label for="regionFormSelect">Select a region:<span style="color: #ff0000">*</span></label>
-                <select id="regionFormSelect" name="region" class="form-control form-control-sm" aria-label="Active Regions" form="form-regions" onchange="getCountries()" required>
+                <label for="regionFormSelect">Region:<span>*</span></label>
+                <select id="regionFormSelect" name="region" aria-label="Active Regions" form="form-regions" onchange="getCountries()">
                     <option value=""></option>
                     @foreach($regions as $region)
                         <option value="{{ $region->id }}" @if($region->id == $selectedRegionId) selected @endif>{{ $region->name }}</option>
@@ -38,7 +38,9 @@
                                 <td class="text-left">{{ $country->name }}</td>
                                 <td class="text-center">{{ $country->code }}</td>
                                 <td class="text-center">{{ $country->capital }}</td>
-                                <td class="text-center"></td>
+                                <td class="text-center">
+                                    <a title="Edit the country {{ $country->name }}" href="{{ route('editCountryPage', ['countryId' => $country->id]) }}"><i class="fa fa-edit"></i></a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

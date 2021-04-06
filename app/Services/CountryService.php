@@ -44,15 +44,26 @@ class CountryService
     {
         $country = Country::whereName($name)->first();
         if (!$country) {
-            $region = Region::whereName($regionName)->first();
-
             $country = new Country();
-            $country->name = $name;
-            $country->code = $code;
-            $country->capital = $capital;
-            $country->region_id = $region->id;
-            $country->save();
+            $region = Region::whereName($regionName)->first();
+            $this->updateCountry($country, $region, $name, $code, $capital);
         }
+    }
+
+    /**
+     * @param Country $country
+     * @param Region $region
+     * @param string $name
+     * @param string $code
+     * @param string $capital
+     */
+    public function updateCountry(Country $country, Region $region, string $name, string $code, string $capital)
+    {
+        $country->name = $name;
+        $country->code = $code;
+        $country->capital = $capital;
+        $country->region_id = $region->id;
+        $country->save();
     }
 
     /**
@@ -71,5 +82,14 @@ class CountryService
     public function getByRegion(string $regionId) : Collection
     {
         return Country::where('region_id', $regionId)->get();
+    }
+
+    /**
+     * @param string $countryId
+     * @return Country|null
+     */
+    public function getById(string $countryId) : ?Country
+    {
+        return Country::find($countryId);
     }
 }

@@ -48,7 +48,6 @@ class RegionControllerTest extends TestCase
         $this->assertEquals("countries", $result->name());
         $this->assertContains($collectionMock, $result->getData());
         $this->assertEquals(0, $result->getData()['selectedRegionId']);
-        $this->assertEquals($collectionMock, $result->getData()['regions']);
     }
 
     /**

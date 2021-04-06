@@ -5,10 +5,19 @@ namespace Tests\Unit\Services;
 use App\Models\Country;
 use App\Models\Region;
 use App\Services\CountryService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CountryServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp() : void
+    {
+        parent::setUp();
+        $this->seed();
+    }
+
     /**
      * @covers \App\Services\CountryService::populateCountries
      */
@@ -30,6 +39,7 @@ class CountryServiceTest extends TestCase
 
     /**
      * @covers \App\Services\CountryService::saveCountry
+     * @covers \App\Services\CountryService::updateCountry
      */
     public function testSaveCountry()
     {
@@ -42,12 +52,30 @@ class CountryServiceTest extends TestCase
     }
 
     /**
+     * @covers \App\Services\CountryService::updateCountry
+     */
+    public function testUpdateCountry()
+    {
+        $region = Region::whereName("Europe")->first();
+        $country = new Country();
+
+        $countryService = new CountryService();
+        $countryService->updateCountry($country, $region, "unit-test", "ut", "unit-test-capital");
+
+        $updatedCountry = Country::whereName("unit-test")->first();
+        $this->assertNotNull($updatedCountry);
+        $this->assertNotNull($updatedCountry->id);
+        $this->assertEquals("ut", $updatedCountry->code);
+        $this->assertEquals("unit-test-capital", $updatedCountry->capital);
+    }
+
+    /**
      * @covers \App\Services\CountryService::getByName
      */
     public function testGetByNameNotFound()
     {
         $countryService = new CountryService();
-        $country = $countryService->getByName("unit-test");
+        $country = $countryService->getByName("invalid-name");
         $this->assertNull($country);
     }
 
@@ -73,5 +101,28 @@ class CountryServiceTest extends TestCase
         $countryService = new CountryService();
         $countries = $countryService->getByRegion($country->region_id);
         $this->assertNotNull($countries);
+    }
+
+    /**
+     * @covers \App\Services\CountryService::getById
+     */
+    public function testGetByIdNotFound()
+    {
+        $countryService = new CountryService();
+        $country = $countryService->getById("9999");
+        $this->assertNull($country);
+    }
+
+    /**
+     * @covers \App\Services\CountryService::getByName
+     */
+    public function testGetById()
+    {
+        $country = Country::all()->first();
+
+        $countryService = new CountryService();
+        $returnedCountry = $countryService->getById($country->id);
+        $this->assertNotNull($returnedCountry);
+        $this->assertEquals($country, $returnedCountry);
     }
 }
