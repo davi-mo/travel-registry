@@ -6,7 +6,6 @@
             <p>To see the countries, select a region bellow:</p>
         </div>
         <form id="form-regions" action="{{ route('getCountriesByRegion') }}">
-            @csrf
             <div class="form-group">
                 <label for="regionFormSelect">Region:<span>*</span></label>
                 <select id="regionFormSelect" name="region" aria-label="Active Regions" form="form-regions" onchange="getCountries()">
