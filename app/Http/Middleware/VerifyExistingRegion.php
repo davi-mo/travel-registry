@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class VerifyExistingRegion
 {
     /** @var RegionService */
-    private $regionService;
+    private RegionService $regionService;
 
     /**
      * VerifyExistingRegion constructor.
@@ -31,7 +31,6 @@ class VerifyExistingRegion
     public function handle(Request $request, Closure $next)
     {
         $regionId = $request->route()->parameter('regionId');
-
         if (!$regionId || !$this->regionService->getRegionById($regionId)) {
             throw NotFoundException::becauseRegionIsInvalid();
         }

@@ -25,4 +25,11 @@ class NotFoundException extends BaseException
         $invalidRegion->setDetail("The region is invalid");
         return $invalidRegion;
     }
+
+    public static function becauseCountryIsInvalid() : NotFoundException
+    {
+        $invalidCountry = new NotFoundException();
+        $invalidCountry->setDetail("The country is invalid");
+        return $invalidCountry;
+    }
 }

@@ -20,6 +20,9 @@ class NotFoundExceptionTest extends TestCase
         $this->assertEquals('region-fake was not found.', $regionNotFoundException->getDetail());
     }
 
+    /**
+     * @covers \App\Exceptions\NotFoundException::becauseRegionIsInvalid
+     */
     public function testBecauseRegionIsInvalid()
     {
         $invalidRegionException = NotFoundException::becauseRegionIsInvalid();
@@ -27,5 +30,17 @@ class NotFoundExceptionTest extends TestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $invalidRegionException->getHttpStatusCode());
         $this->assertEquals('Not Found', $invalidRegionException->getTitle());
         $this->assertEquals('The region is invalid', $invalidRegionException->getDetail());
+    }
+
+    /**
+     * @covers \App\Exceptions\NotFoundException::becauseCountryIsInvalid
+     */
+    public function testBecauseCountryIsInvalid()
+    {
+        $invalidCountryException = NotFoundException::becauseCountryIsInvalid();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $invalidCountryException->getHttpStatusCode());
+        $this->assertEquals('Not Found', $invalidCountryException->getTitle());
+        $this->assertEquals('The country is invalid', $invalidCountryException->getDetail());
     }
 }

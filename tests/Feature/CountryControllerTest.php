@@ -49,6 +49,19 @@ class CountryControllerTest extends TestCase
     }
 
     /**
+     * @covers \App\Http\Controllers\CountryController::editCountryPage
+     */
+    public function testEditCountryPageWithInvalidCountry()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('editCountryPage', ['countryId' => "9999"]));
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The country is invalid", $response->exception->getMessage());
+    }
+
+    /**
      * @covers \App\Http\Controllers\CountryController::updateCountry
      */
     public function testUpdateCountry()
@@ -68,5 +81,21 @@ class CountryControllerTest extends TestCase
         $this->assertEquals("name", $updatedCountry->name);
         $this->assertEquals("cd", $updatedCountry->code);
         $this->assertEquals("capital", $updatedCountry->capital);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CountryController::updateCountry
+     */
+    public function testUpdateCountryWithInvalidCountry()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->put(
+            route('updateCountry', ['countryId' => "9999"]),
+            ["_method" => "PUT", "region" => "Europe", "name" => "name", "code" => "cd", "capital" => "capital"]
+        );
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The country is invalid", $response->exception->getMessage());
     }
 }

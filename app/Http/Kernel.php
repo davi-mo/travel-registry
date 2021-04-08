@@ -45,7 +45,11 @@ class Kernel extends HttpKernel
         ],
 
         'existing-region' => [
-            \App\Http\Middleware\VerifyExistingRegion::class
+            \App\Http\Middleware\VerifyExistingRegion::class,
+        ],
+
+        'existing-country' => [
+            \App\Http\Middleware\VerifyExistingCountry::class,
         ],
     ];
 
