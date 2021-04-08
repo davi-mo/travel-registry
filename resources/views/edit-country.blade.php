@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label for="countryRegion">Region:<span>*</span></label>
-                <input id="countryRegion" type="text" name="region" value="{{ $country->region->name }}" class="form-control form-control-sm" form="form-country" required readonly>
+                <input id="countryRegion" type="text" name="region" value="{{ $country->region?->name }}" class="form-control form-control-sm" form="form-country" required readonly>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save">

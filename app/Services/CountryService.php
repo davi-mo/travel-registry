@@ -23,8 +23,7 @@ class CountryService
     public function populateCountries(array $data) : void
     {
         foreach ($data as $countries) {
-            $countryName = isset($this::DIFFERENT_COUNTRY_NAMES[$countries['name']]) ?
-                $this::DIFFERENT_COUNTRY_NAMES[$countries['name']] : $countries['name'];
+            $countryName = isset($this::DIFFERENT_COUNTRY_NAMES[$countries['name']]) ?? $countries['name'];
             $this->saveCountry(
                 $countryName,
                 $countries['alpha2Code'],

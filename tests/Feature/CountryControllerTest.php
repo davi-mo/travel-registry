@@ -27,7 +27,7 @@ class CountryControllerTest extends TestCase
         $user = User::all()->first();
         $this->be($user);
 
-        $response = $this->post(route('getCountriesByRegion'), ["_method" => "POST", "region" => 4]);
+        $response = $this->get(route('getCountriesByRegion', ["region" => 4]));
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertInstanceOf(Response::class, $response->baseResponse);
         $this->assertEquals(4, $response->baseResponse->getOriginalContent()->getData()['selectedRegionId']);
