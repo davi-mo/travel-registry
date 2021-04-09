@@ -33,4 +33,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/country/{countryId}/edit','\App\Http\Controllers\CountryController@editCountryPage')->name('editCountryPage');
         Route::put('/country/{countryId}/update', '\App\Http\Controllers\CountryController@updateCountry')->name('updateCountry');
     });
+
+    Route::get("visited-cities", '\App\Http\Controllers\VisitedCityController@getByUser')->name('visitedCities');
 });

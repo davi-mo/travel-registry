@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\GoogleAccount;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GoogleAccountFactory extends Factory
@@ -22,7 +23,7 @@ class GoogleAccountFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => rand(1, 3),
+            'user_id' => User::all()->first()->id,
             'provider_user_id' => '123456789',
             'provider' => 'google',
             'created_at' => now(),

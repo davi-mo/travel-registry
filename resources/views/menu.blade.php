@@ -3,4 +3,5 @@
     <a href="{{ route('home') }}">Home</a>
     <a href="{{ route('getAllRegions') }}">Regions</a>
     <a href="{{ route('getActiveRegions') }}">Countries</a>
+    <a href="{{ route('visitedCities') }}">Visited Cities</a>
 </div>
