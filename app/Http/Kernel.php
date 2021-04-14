@@ -51,6 +51,10 @@ class Kernel extends HttpKernel
         'existing-country' => [
             \App\Http\Middleware\VerifyExistingCountry::class,
         ],
+
+        'validate-visited-city' => [
+            \App\Http\Middleware\ValidateVisitedCity::class,
+        ],
     ];
 
     /**

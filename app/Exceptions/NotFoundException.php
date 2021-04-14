@@ -32,4 +32,11 @@ class NotFoundException extends BaseException
         $invalidCountry->setDetail("The country is invalid");
         return $invalidCountry;
     }
+
+    public static function becauseVisitedCityIsInvalid() : NotFoundException
+    {
+        $invalidVisitedCity = new NotFoundException();
+        $invalidVisitedCity->setDetail("The visited city is invalid");
+        return $invalidVisitedCity;
+    }
 }

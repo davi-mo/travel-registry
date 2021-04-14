@@ -35,4 +35,10 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get("visited-cities", '\App\Http\Controllers\VisitedCityController@getByUser')->name('visitedCities');
+
+    Route::group(['middleware' => ['validate-visited-city']], function() {
+        Route::get('/visited-cities/{visitedCityId}/edit','\App\Http\Controllers\VisitedCityController@editVisitedCity')->name('editVisitedCity');
+        Route::put('/visited-cities/{visitedCityId}/update', '\App\Http\Controllers\VisitedCityController@updateVisitedCity')->name('updateVisitedCity');
+        Route::delete('/visited-cities/{visitedCityId}', '\App\Http\Controllers\VisitedCityController@deleteVisitedCity')->name('deleteVisitedCity');
+    });
 });
