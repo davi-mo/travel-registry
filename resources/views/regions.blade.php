@@ -1,7 +1,7 @@
 @extends('overview')
 @section('content')
     @include('main')
-    <div id="form">
+    <div id="form" class="form">
         <table class="table table-hover">
             <thead>
                 <tr>

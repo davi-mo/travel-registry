@@ -94,6 +94,10 @@ body {
     font-size:30px;
 }
 
+.welcome-text {
+    padding: 16px;
+}
+
 #main #header #form{
     transition: margin-left .5s;
 }
