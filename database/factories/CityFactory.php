@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\City;
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CityFactory extends Factory
@@ -21,10 +22,11 @@ class CityFactory extends Factory
      */
     public function definition()
     {
+        $country = Country::inRandomOrder()->first();
         return [
             'name' => $this->faker->city,
             'state' => $this->faker->state,
-            'country_id' => rand(1, 10),
+            'country_id' => $country->id,
             'created_at' => now(),
             'updated_at' => now(),
         ];

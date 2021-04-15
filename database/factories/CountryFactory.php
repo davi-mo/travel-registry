@@ -25,7 +25,7 @@ class CountryFactory extends Factory
             'name' => $this->faker->name,
             'code' => $this->faker->countryCode,
             'capital' => $this->faker->city,
-            'region_id' => rand(1, 6),
+            'region_id' => rand(1, 5),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -52,7 +52,8 @@ class VisitedCityControllerTest extends TestCase
     {
         $user = User::all()->first();
         $this->be($user);
-        $visitedCity = VisitedCities::all()->first();
+
+        $visitedCity = VisitedCities::where('user_id', '<>', $user->id)->first();
 
         $response = $this->get(route('editVisitedCity', ['visitedCityId' => $visitedCity->id]));
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->exception->getCode());
@@ -176,7 +177,7 @@ class VisitedCityControllerTest extends TestCase
         $user = User::all()->first();
         $this->be($user);
 
-        $visitedCity = VisitedCities::all()->first();
+        $visitedCity = VisitedCities::where('user_id', '<>', $user->id)->first();
 
         $response = $this->delete(route('deleteVisitedCity', ['visitedCityId' => $visitedCity->id]));
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->exception->getCode());

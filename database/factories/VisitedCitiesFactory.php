@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
+use App\Models\User;
 use App\Models\VisitedCities;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,9 +23,11 @@ class VisitedCitiesFactory extends Factory
      */
     public function definition()
     {
+        $user = User::inRandomOrder()->first();
+        $city = City::inRandomOrder()->first();
         return [
-            'user_id' => rand(1, 3),
-            'city_id' => rand(1, 10),
+            'user_id' => $user->id,
+            'city_id' => $city->id,
             'visited_at' => $this->faker->date(),
             'created_at' => now(),
             'updated_at' => now(),

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\VisitedCities;
 use App\Services\VisitedCitiesService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,6 +16,8 @@ use Tests\TestCase;
 
 class VisitedCityControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp() : void
     {
         parent::setUp();
