@@ -8,7 +8,7 @@
         <form id="form-regions" action="{{ route('getCountriesByRegion') }}">
             <div class="form-group">
                 <label for="regionFormSelect">Region:<span>*</span></label>
-                <select id="regionFormSelect" name="region" aria-label="Active Regions" form="form-regions" onchange="getCountries()">
+                <select id="regionFormSelect" name="region" aria-label="Active Regions" form="form-regions">
                     <option value=""></option>
                     @foreach($regions as $region)
                         <option value="{{ $region->id }}" @if($region->id == $selectedRegionId) selected @endif>{{ $region->name }}</option>
@@ -37,7 +37,8 @@
                                 <td class="text-center">{{ $country->code }}</td>
                                 <td class="text-center">{{ $country->capital }}</td>
                                 <td class="text-center">
-                                    <a title="Edit the country {{ $country->name }}" href="{{ route('editCountryPage', ['countryId' => $country->id]) }}"><i class="fa fa-edit"></i></a>
+                                    <a title="Edit the country {{ $country->name }}" href="{{ route('editCountryPage', ['countryId' => $country->id]) }}"><i class="fa fa-edit"></i></a>&nbsp;
+                                    <a title="Get the cities from country {{ $country->name }}" href="{{ route('getCitiesByCountry', ['countryId' => $country->id]) }}"><i class="fa fa-building"></i></a>
                                 </td>
                             </tr>
                         @endforeach

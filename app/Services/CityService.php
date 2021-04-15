@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\City;
 use App\Models\Country;
+use Illuminate\Database\Eloquent\Builder;
 
 class CityService
 {
@@ -42,6 +43,15 @@ class CityService
     public function getByName(string $name) : ?City
     {
         return City::whereName($name)->first();
+    }
+
+    /**
+     * @param string $countryId
+     * @return Builder
+     */
+    public function getByCountry(string $countryId) : Builder
+    {
+        return City::where("country_id", $countryId);
     }
 
     /**

@@ -117,4 +117,18 @@ class CityServiceTest extends TestCase
 
         $cityServiceMock->saveCity($countryMock, $cities);
     }
+
+    /**
+     * @covers \App\Services\CityService::getByCountry
+     */
+    public function testGetByCountry()
+    {
+        $city = City::inRandomOrder()->first();
+        $restCityServiceMock = \Mockery::mock(RestCityService::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+
+        $cityService = new CityService($restCityServiceMock, $countryServiceMock);
+        $cities = $cityService->getByCountry((string) $city->country_id)->get();
+        $this->assertNotNull($cities);
+    }
 }
