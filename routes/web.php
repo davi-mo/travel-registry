@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['existing-country']], function () {
         Route::get('/country/{countryId}/edit','\App\Http\Controllers\CountryController@editCountryPage')->name('editCountryPage');
         Route::put('/country/{countryId}/update', '\App\Http\Controllers\CountryController@updateCountry')->name('updateCountry');
+        Route::get('/country/{countryId}/cities', '\App\Http\Controllers\CityController@getCitiesByCountry')->name('getCitiesByCountry');
     });
 
     Route::get("visited-cities", '\App\Http\Controllers\VisitedCityController@getByUser')->name('visitedCities');
