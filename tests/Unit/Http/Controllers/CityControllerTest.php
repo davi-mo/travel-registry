@@ -28,7 +28,7 @@ class CityControllerTest extends TestCase
             ->once()
             ->with($countryId)
             ->andReturn($builderMock);
-        $builderMock->shouldReceive('simplePaginate')
+        $builderMock->shouldReceive('paginate')
             ->once()
             ->with(50)
             ->andReturn($paginatorMock);

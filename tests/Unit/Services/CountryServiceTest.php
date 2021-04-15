@@ -99,7 +99,7 @@ class CountryServiceTest extends TestCase
     {
         $country = Country::all()->first();
         $countryService = new CountryService();
-        $countries = $countryService->getByRegion($country->region_id);
+        $countries = $countryService->getByRegion($country->region_id)->get();
         $this->assertNotNull($countries);
     }
 

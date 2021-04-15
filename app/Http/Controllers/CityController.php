@@ -17,7 +17,7 @@ class CityController extends Controller
         CityService $cityService,
         CountryService $countryService
     ) : View {
-        $cities = $cityService->getByCountry($countryId)->simplePaginate(50);
+        $cities = $cityService->getByCountry($countryId)->paginate(50);
         $country = $countryService->getById($countryId);
         return view("cities")->with("cities", $cities)->with("country", $country);
     }

@@ -11,23 +11,16 @@ use Illuminate\Contracts\View\View;
 class CountryController extends Controller
 {
     /**
-     * @param Request $request
+     * @param string $regionId
      * @param CountryService $countryService
-     * @param RegionService $regionService
      * @return View
      */
     public function getCountriesByRegion(
-        Request $request,
-        CountryService $countryService,
-        RegionService $regionService
+        string $regionId,
+        CountryService $countryService
     ) : View {
-        $regionId = $request->get('region');
-        $regions = $regionService->getActiveRegions();
-        $countries = $countryService->getByRegion($regionId);
-        return view("countries")
-            ->with("regions", $regions)
-            ->with("selectedRegionId", $regionId)
-            ->with('countries', $countries);
+        $countries = $countryService->getByRegion($regionId)->paginate(30);
+        return view("countries")->with('countries', $countries);
     }
 
     /**

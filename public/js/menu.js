@@ -14,13 +14,4 @@ $(document).ready(function() {
         $('#form')[0].style.marginLeft = "0";
         $('body')[0].style.backgroundColor="white";
     })
-
-    $('#regionFormSelect').on('change', function () {
-        let regionId = $('#regionFormSelect').val();
-        if (regionId !== "") {
-            $('#form-regions').submit();
-        } else {
-            $('#countries-section')[0].style.display = 'none';
-        }
-    })
 });

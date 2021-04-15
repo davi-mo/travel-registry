@@ -44,14 +44,6 @@ class RegionServiceTest extends TestCase
         $this->assertCount(5, $regions);
     }
 
-    public function testGetActiveRegions()
-    {
-        $regionService = new RegionService();
-        $activeRegions = $regionService->getActiveRegions();
-        $this->assertNotEmpty($activeRegions);
-        $this->assertCount(1, $activeRegions);
-    }
-
     /**
      * @covers \App\Services\RegionService::activeInactiveRegion
      */

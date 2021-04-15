@@ -7,6 +7,8 @@ use App\Models\Country;
 use App\Models\Region;
 use App\Services\CountryService;
 use App\Services\RegionService;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,31 +23,24 @@ class CountryControllerTest extends TestCase
      */
     public function testGetCountriesByRegion()
     {
-        $regionServiceMock = \Mockery::mock(RegionService::class);
         $countryServiceMock = \Mockery::mock(CountryService::class);
-        $requestMock = \Mockery::mock(Request::class);
-        $regionsMock = \Mockery::mock(Collection::class);
-        $countriesMock = \Mockery::mock(Collection::class);
+        $builderMock = \Mockery::mock(Builder::class);
+        $paginatorMock = \Mockery::mock(Paginator::class);
+        $regionId = "4";
 
-        $requestMock->shouldReceive('get')
-            ->once()
-            ->with('region')
-            ->andReturn(4);
-        $regionServiceMock->shouldReceive('getActiveRegions')
-            ->once()
-            ->withNoArgs()
-            ->andReturn($regionsMock);
         $countryServiceMock->shouldReceive('getByRegion')
             ->once()
-            ->with(4)
-            ->andReturn($countriesMock);
+            ->with($regionId)
+            ->andReturn($builderMock);
+        $builderMock->shouldReceive('paginate')
+            ->once()
+            ->with(30)
+            ->andReturn($paginatorMock);
 
         $countryController = new CountryController();
-        $result = $countryController->getCountriesByRegion($requestMock, $countryServiceMock, $regionServiceMock);
+        $result = $countryController->getCountriesByRegion($regionId, $countryServiceMock);
         $this->assertEquals("countries", $result->name());
-        $this->assertEquals(4, $result->getData()['selectedRegionId']);
-        $this->assertEquals($regionsMock, $result->getData()['regions']);
-        $this->assertEquals($countriesMock, $result->getData()['countries']);
+        $this->assertEquals($paginatorMock, $result->getData()['countries']);
     }
 
     /**

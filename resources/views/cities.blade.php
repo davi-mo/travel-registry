@@ -4,7 +4,7 @@
     <div id="form" class="form">
         <div id="cities-section">
             <div class="text-right link-back">
-                <a href="{{ route('getCountriesByRegion') }}?region={{ $country->region_id }}">Back to country page</a>
+                <a href="{{ route('getCountriesByRegion', ['regionId' => $country->region_id]) }}">Back to country page</a>
             </div>
             @if($cities->isEmpty())
                 <p>There are no cities for the country {{ $country->name }}.</p>

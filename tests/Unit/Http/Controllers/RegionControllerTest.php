@@ -31,26 +31,6 @@ class RegionControllerTest extends TestCase
     }
 
     /**
-     * @covers \App\Http\Controllers\RegionController::getActiveRegions
-     */
-    public function testGetActiveRegions()
-    {
-        $regionServiceMock = \Mockery::mock(RegionService::class);
-        $collectionMock = \Mockery::mock(Collection::class);
-
-        $regionServiceMock->shouldReceive('getActiveRegions')
-            ->once()
-            ->withNoArgs()
-            ->andReturn($collectionMock);
-
-        $regionController = new RegionController();
-        $result = $regionController->getActiveRegions($regionServiceMock);
-        $this->assertEquals("countries", $result->name());
-        $this->assertContains($collectionMock, $result->getData());
-        $this->assertEquals(0, $result->getData()['selectedRegionId']);
-    }
-
-    /**
      * @covers \App\Http\Controllers\RegionController::updateRegion
      */
     public function testUpdateRegion()

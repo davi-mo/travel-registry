@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Country;
 use App\Models\Region;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class CountryService
@@ -76,11 +77,11 @@ class CountryService
 
     /**
      * @param string $regionId
-     * @return Collection
+     * @return Builder
      */
-    public function getByRegion(string $regionId) : Collection
+    public function getByRegion(string $regionId) : Builder
     {
-        return Country::where('region_id', $regionId)->get();
+        return Country::where('region_id', $regionId);
     }
 
     /**
