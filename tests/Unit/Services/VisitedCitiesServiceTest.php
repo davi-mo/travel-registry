@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\City;
+use App\Models\User;
 use App\Models\VisitedCities;
 use App\Services\VisitedCitiesService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -110,5 +112,45 @@ class VisitedCitiesServiceTest extends TestCase
 
         $visitedCitiesService = new VisitedCitiesService();
         $visitedCitiesService->deleteVisitedCity($visitedCityMock);
+    }
+
+    /**
+     * @covers \App\Services\VisitedCitiesService::saveVisitedCity
+     */
+    public function testSaveVisitedCity()
+    {
+        $visitedCityMock = \Mockery::mock(VisitedCities::class);
+        $cityMock = \Mockery::mock(City::class);
+        $userMock = \Mockery::mock(User::class);
+        $cityId = "1";
+        $userId = "1";
+
+        $cityMock->shouldReceive('getAttribute')
+            ->once()
+            ->with('id')
+            ->andReturn($cityId);
+        $userMock->shouldReceive('getAttribute')
+            ->once()
+            ->with('id')
+            ->andReturn($userId);
+        $visitedCityMock->shouldReceive('setAttribute')
+            ->once()
+            ->with('city_id', $cityId)
+            ->andReturnNull();
+        $visitedCityMock->shouldReceive('setAttribute')
+            ->once()
+            ->with('user_id', $userId)
+            ->andReturnNull();
+        $visitedCityMock->shouldReceive('setAttribute')
+            ->once()
+            ->with('visited_at', null)
+            ->andReturnNull();
+        $visitedCityMock->shouldReceive('save')
+            ->once()
+            ->withNoArgs()
+            ->andReturnNull();
+
+        $visitedCitiesService = new VisitedCitiesService();
+        $visitedCitiesService->saveVisitedCity($visitedCityMock, $cityMock, $userMock);
     }
 }

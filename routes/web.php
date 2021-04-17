@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/country/{countryId}/cities', '\App\Http\Controllers\CityController@getCitiesByCountry')->name('getCitiesByCountry');
     });
 
-    Route::get("visited-cities", '\App\Http\Controllers\VisitedCityController@getByUser')->name('visitedCities');
+    Route::get("/visited-cities", '\App\Http\Controllers\VisitedCityController@getByUser')->name('visitedCities');
 
     Route::group(['middleware' => ['validate-visited-city']], function() {
         Route::get('/visited-cities/{visitedCityId}/edit','\App\Http\Controllers\VisitedCityController@editVisitedCity')->name('editVisitedCity');
@@ -45,5 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['existing-city']], function () {
         Route::get('/city/{cityId}/edit','\App\Http\Controllers\CityController@editCityPage')->name('editCityPage');
         Route::put('/city/{cityId}/update', '\App\Http\Controllers\CityController@updateCity')->name('updateCity');
+        Route::get('/city/{cityId}/mark-visited','\App\Http\Controllers\CityController@markVisitedCity')->name('markVisitedCity');
+        Route::post('/city/{cityId}/visited', '\App\Http\Controllers\VisitedCityController@saveVisitedCity')->name('saveVisitedCity');
     });
 });

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VisitedCities;
+use App\Services\CityService;
 use App\Services\VisitedCitiesService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -28,6 +30,28 @@ class VisitedCityController extends Controller
     {
         $visitedCity = $visitedCitiesService->getById($visitedCityId);
         return view("edit-visited-city")->with("visitedCity", $visitedCity);
+    }
+
+    /**
+     * @param string $cityId
+     * @param Request $request
+     * @param CityService $cityService
+     * @param VisitedCitiesService $visitedCitiesService
+     * @return RedirectResponse
+     */
+    public function saveVisitedCity(
+        string $cityId,
+        Request $request,
+        CityService $cityService,
+        VisitedCitiesService $visitedCitiesService
+    ) : RedirectResponse {
+        $visitedCity = new VisitedCities();
+        $city = $cityService->getById($cityId);
+        $user = auth()->user();
+        $visitedAt = $request->get('visitedAt');
+        $visitedCitiesService->saveVisitedCity($visitedCity, $city, $user, $visitedAt);
+
+        return redirect()->to("/visited-cities");
     }
 
     /**

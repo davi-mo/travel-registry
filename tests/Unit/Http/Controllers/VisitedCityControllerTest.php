@@ -3,8 +3,10 @@
 namespace Tests\Unit\Http\Controllers;
 
 use App\Http\Controllers\VisitedCityController;
+use App\Models\City;
 use App\Models\User;
 use App\Models\VisitedCities;
+use App\Services\CityService;
 use App\Services\VisitedCitiesService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -125,6 +127,44 @@ class VisitedCityControllerTest extends TestCase
 
         $visitedCityController = new VisitedCityController();
         $response = $visitedCityController->deleteVisitedCity($visitedCityId, $visitedCityServiceMock);
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\VisitedCityController::saveVisitedCity
+     */
+    public function testSaveVisitedCity()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $cityServiceMock = \Mockery::mock(CityService::class);
+        $visitedCityServiceMock = \Mockery::mock(VisitedCitiesService::class);
+        $cityMock = \Mockery::mock(City::class);
+        $requestMock = \Mockery::mock(Request::class);
+        $cityId = "1";
+
+        $cityServiceMock->shouldReceive('getById')
+            ->once()
+            ->with($cityId)
+            ->andReturn($cityMock);
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('visitedAt')
+            ->andReturnNull();
+        $visitedCityServiceMock->shouldReceive('saveVisitedCity')
+            ->once()
+            ->withSomeOfArgs($cityMock, $user, null)
+            ->andReturnNull();
+
+        $visitedCityController = new VisitedCityController();
+        $response = $visitedCityController->saveVisitedCity(
+            $cityId,
+            $requestMock,
+            $cityServiceMock,
+            $visitedCityServiceMock
+        );
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertInstanceOf(RedirectResponse::class, $response);
     }

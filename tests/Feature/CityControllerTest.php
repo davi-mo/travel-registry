@@ -112,4 +112,32 @@ class CityControllerTest extends TestCase
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
         $this->assertEquals("The city is invalid", $response->exception->getMessage());
     }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::markVisitedCity
+     */
+    public function testMarkVisitedCity()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+        $city = City::all()->first();
+
+        $response = $this->get(route('markVisitedCity', ['cityId' => $city->id]));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf(Response::class, $response->baseResponse);
+        $this->assertEquals($city->id, $response->baseResponse->getOriginalContent()->getData()['city']->id);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::markVisitedCity
+     */
+    public function testMarkVisitedCityWithInvalidCity()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('markVisitedCity', ['cityId' => "9999"]));
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The city is invalid", $response->exception->getMessage());
+    }
 }

@@ -26,6 +26,7 @@
                             <td class="text-center">{{ $city->country?->name }}</td>
                             <td class="text-center">
                                 <a title="Edit the city {{ $city->name }}" href="{{ route('editCityPage', ['cityId' => $city->id]) }}"><i class="fa fa-edit"></i></a>&nbsp;
+                                <a title="Mark city {{ $city->name }} as visited" href="{{ route('markVisitedCity', ['cityId' => $city->id]) }}"><i class="fa fa-calendar"></i></a>&nbsp;
                             </td>
                         </tr>
                     @endforeach

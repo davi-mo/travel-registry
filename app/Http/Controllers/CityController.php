@@ -37,6 +37,17 @@ class CityController extends Controller
 
     /**
      * @param string $cityId
+     * @param CityService $cityService
+     * @return View
+     */
+    public function markVisitedCity(string $cityId, CityService $cityService) : View
+    {
+        $city = $cityService->getById($cityId);
+        return view("mark-visited-city")->with("city", $city);
+    }
+
+    /**
+     * @param string $cityId
      * @param Request $request
      * @param CityService $cityService
      * @return RedirectResponse

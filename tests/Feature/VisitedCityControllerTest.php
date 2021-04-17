@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\City;
 use App\Models\User;
 use App\Models\VisitedCities;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -182,5 +183,47 @@ class VisitedCityControllerTest extends TestCase
         $response = $this->delete(route('deleteVisitedCity', ['visitedCityId' => $visitedCity->id]));
         $this->assertEquals(Response::HTTP_FORBIDDEN, $response->exception->getCode());
         $this->assertEquals("Invalid user which visited the city", $response->exception->getMessage());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\VisitedCityController::saveVisitedCity
+     */
+    public function testSaveVisitedCityWithInvalidCityId()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->post(
+            route('saveVisitedCity', ['cityId' => 9999]),
+            ["_method" => "POST", "visitedAt" => "2018-03-01"]
+        );
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The city is invalid", $response->exception->getMessage());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\VisitedCityController::saveVisitedCity
+     */
+    public function testSaveVisitedCity()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+        $city = City::inRandomOrder()->first();
+
+        $response = $this->post(
+            route('saveVisitedCity', ['cityId' => $city->id]),
+            ["_method" => "POST", "visitedAt" => "2018-03-01"]
+        );
+
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
+        $this->assertInstanceOf(RedirectResponse::class, $response->baseResponse);
+
+        $visitedCity = VisitedCities::where([
+            ['user_id', '=', $user->id],
+            ['city_id', '=', $city->id],
+            ['visited_at', '=', '2018-03-01'],
+        ])->first();
+        $this->assertNotNull($visitedCity);
     }
 }

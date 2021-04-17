@@ -67,6 +67,28 @@ class CityControllerTest extends TestCase
         $response = $cityController->editCityPage($cityId, $cityServiceMock);
         $this->assertInstanceOf(View::class, $response);
         $this->assertContains($cityMock, $response->getData());
+        $this->assertEquals("edit-city", $response->getName());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::markVisitedCity
+     */
+    public function testMarkVisitedCity()
+    {
+        $cityId = "1";
+        $cityServiceMock = \Mockery::mock(CityService::class);
+        $cityMock = \Mockery::mock(City::class);
+
+        $cityServiceMock->shouldReceive('getById')
+            ->once()
+            ->with($cityId)
+            ->andReturn($cityMock);
+
+        $cityController = \Mockery::mock(CityController::class)->makePartial();
+        $response = $cityController->markVisitedCity($cityId, $cityServiceMock);
+        $this->assertInstanceOf(View::class, $response);
+        $this->assertContains($cityMock, $response->getData());
+        $this->assertEquals("mark-visited-city", $response->getName());
     }
 
     /**
