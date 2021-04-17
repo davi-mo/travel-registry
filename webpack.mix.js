@@ -18,3 +18,4 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/overview.css', 'public/css', [
 
     ]);
+mix.js('resources/js/menu.js', 'public/js')
