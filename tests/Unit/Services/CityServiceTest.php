@@ -131,4 +131,59 @@ class CityServiceTest extends TestCase
         $cities = $cityService->getByCountry((string) $city->country_id)->get();
         $this->assertNotNull($cities);
     }
+
+    /**
+     * @covers \App\Services\CityService::getById
+     */
+    public function testGetById()
+    {
+        $city = City::inRandomOrder()->first();
+        $restCityServiceMock = \Mockery::mock(RestCityService::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+
+        $cityService = new CityService($restCityServiceMock, $countryServiceMock);
+        $returnedCity = $cityService->getById((string) $city->id);
+        $this->assertNotNull($returnedCity);
+        $this->assertEquals($city, $returnedCity);
+    }
+
+    /**
+     * @covers \App\Services\CityService::getById
+     */
+    public function testGetByIdNotFound()
+    {
+        $restCityServiceMock = \Mockery::mock(RestCityService::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+
+        $cityService = new CityService($restCityServiceMock, $countryServiceMock);
+        $returnedCity = $cityService->getById("9999");
+        $this->assertNull($returnedCity);
+    }
+
+    /**
+     * @covers \App\Services\CityService::updateCity
+     */
+    public function testUpdateCity()
+    {
+        $restCityServiceMock = \Mockery::mock(RestCityService::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+        $cityMock = \Mockery::mock(City::class);
+        $cityName = "unit-test-name";
+
+        $cityMock->shouldReceive('setAttribute')
+            ->once()
+            ->with("name", $cityName)
+            ->andReturnNull();
+        $cityMock->shouldReceive('setAttribute')
+            ->once()
+            ->with("state", null)
+            ->andReturnNull();
+        $cityMock->shouldReceive('save')
+            ->once()
+            ->withNoArgs()
+            ->andReturnNull();
+
+        $cityService = new CityService($restCityServiceMock, $countryServiceMock);
+        $cityService->updateCity($cityMock, $cityName);
+    }
 }

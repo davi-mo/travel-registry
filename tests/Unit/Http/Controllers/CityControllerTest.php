@@ -3,11 +3,16 @@
 namespace Tests\Unit\Http\Controllers;
 
 use App\Http\Controllers\CityController;
+use App\Models\City;
 use App\Models\Country;
 use App\Services\CityService;
 use App\Services\CountryService;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 use Tests\TestCase;
 
 class CityControllerTest extends TestCase
@@ -42,5 +47,66 @@ class CityControllerTest extends TestCase
         $this->assertEquals("cities", $result->name());
         $this->assertEquals($paginatorMock, $result->getData()['cities']);
         $this->assertEquals($countryMock, $result->getData()['country']);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::editCityPage
+     */
+    public function testEditCityPage()
+    {
+        $cityId = "1";
+        $cityServiceMock = \Mockery::mock(CityService::class);
+        $cityMock = \Mockery::mock(City::class);
+
+        $cityServiceMock->shouldReceive('getById')
+            ->once()
+            ->with($cityId)
+            ->andReturn($cityMock);
+
+        $cityController = \Mockery::mock(CityController::class)->makePartial();
+        $response = $cityController->editCityPage($cityId, $cityServiceMock);
+        $this->assertInstanceOf(View::class, $response);
+        $this->assertContains($cityMock, $response->getData());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::updateCity
+     */
+    public function testUpdateCity()
+    {
+        $cityServiceMock = \Mockery::mock(CityService::class);
+        $requestMock = \Mockery::mock(Request::class);
+        $cityMock = \Mockery::mock(City::class);
+        $cityId = "1";
+        $cityName = "city-name-test";
+        $cityState = null;
+        $countryId = "1";
+
+        $cityServiceMock->shouldReceive('getById')
+            ->once()
+            ->with($cityId)
+            ->andReturn($cityMock);
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('name')
+            ->andReturn($cityName);
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('state')
+            ->andReturn($cityState);
+        $cityMock->shouldReceive('getAttribute')
+            ->once()
+            ->with('country_id')
+            ->andReturn($countryId);
+        $cityServiceMock->shouldReceive('updateCity')
+            ->once()
+            ->with($cityMock, $cityName, $cityState)
+            ->andReturnNull();
+
+        $cityController = \Mockery::mock(CityController::class)->makePartial();
+        $response = $cityController->updateCity($cityId, $requestMock, $cityServiceMock);
+
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
+        $this->assertInstanceOf(RedirectResponse::class, $response);
     }
 }

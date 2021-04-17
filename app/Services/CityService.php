@@ -55,6 +55,27 @@ class CityService
     }
 
     /**
+     * @param string $cityId
+     * @return City|null
+     */
+    public function getById(string $cityId) : ?City
+    {
+        return City::find($cityId);
+    }
+
+    /**
+     * @param City $city
+     * @param string $cityName
+     * @param string|null $cityState
+     */
+    public function updateCity(City $city, string $cityName, ?string $cityState = null)
+    {
+        $city->name = $cityName;
+        $city->state = $cityState;
+        $city->save();
+    }
+
+    /**
      * @param Country $country
      * @param array $cities
      */

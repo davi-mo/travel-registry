@@ -41,4 +41,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/visited-cities/{visitedCityId}/update', '\App\Http\Controllers\VisitedCityController@updateVisitedCity')->name('updateVisitedCity');
         Route::delete('/visited-cities/{visitedCityId}', '\App\Http\Controllers\VisitedCityController@deleteVisitedCity')->name('deleteVisitedCity');
     });
+
+    Route::group(['middleware' => ['existing-city']], function () {
+        Route::get('/city/{cityId}/edit','\App\Http\Controllers\CityController@editCityPage')->name('editCityPage');
+        Route::put('/city/{cityId}/update', '\App\Http\Controllers\CityController@updateCity')->name('updateCity');
+    });
 });

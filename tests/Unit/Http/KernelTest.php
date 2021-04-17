@@ -60,6 +60,10 @@ class KernelTest extends TestCase
                 \App\Http\Middleware\VerifyExistingCountry::class,
             ],
 
+            'existing-city' => [
+                \App\Http\Middleware\VerifyExistingCity::class,
+            ],
+
             'validate-visited-city' => [
                 \App\Http\Middleware\ValidateVisitedCity::class,
             ],
