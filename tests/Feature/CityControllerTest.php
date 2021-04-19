@@ -49,6 +49,36 @@ class CityControllerTest extends TestCase
     }
 
     /**
+     * @covers \App\Http\Controllers\CityController::getCitiesByCountry
+     */
+    public function testFilterCitiesByName()
+    {
+        $city = City::inRandomOrder()->first();
+        $country = Country::find($city->country_id);
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('getCitiesByCountry', ["countryId" => $country->id]) . "?name=" . $city->name);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf(Response::class, $response->baseResponse);
+        $this->assertEquals($country, $response->baseResponse->getOriginalContent()->getData()['country']);
+        $this->assertEquals(1, $response->baseResponse->getOriginalContent()->getData()['cities']->count());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::getCitiesByCountry
+     */
+    public function testFilterCitiesByNameWithInvalidCountry()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('getCitiesByCountry', ["countryId" => 99999]) . "?name=city-test");
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The country is invalid", $response->exception->getMessage());
+    }
+
+    /**
      * @covers \App\Http\Controllers\CityController::editCityPage
      */
     public function testEditCityPage()

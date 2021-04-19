@@ -22,6 +22,7 @@ class CityControllerTest extends TestCase
      */
     public function testGetCitiesByCountry()
     {
+        $requestMock = \Mockery::mock(Request::class);
         $cityServiceMock = \Mockery::mock(CityService::class);
         $countryServiceMock = \Mockery::mock(CountryService::class);
         $builderMock = \Mockery::mock(Builder::class);
@@ -29,6 +30,10 @@ class CityControllerTest extends TestCase
         $paginatorMock = \Mockery::mock(Paginator::class);
         $countryId = "1";
 
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('name')
+            ->andReturn("");
         $cityServiceMock->shouldReceive('getByCountry')
             ->once()
             ->with($countryId)
@@ -43,7 +48,44 @@ class CityControllerTest extends TestCase
             ->andReturn($countryMock);
 
         $cityController = new CityController();
-        $result = $cityController->getCitiesByCountry($countryId, $cityServiceMock, $countryServiceMock);
+        $result = $cityController->getCitiesByCountry($countryId, $requestMock, $cityServiceMock, $countryServiceMock);
+        $this->assertEquals("cities", $result->name());
+        $this->assertEquals($paginatorMock, $result->getData()['cities']);
+        $this->assertEquals($countryMock, $result->getData()['country']);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::getCitiesByCountry
+     */
+    public function testFilterCitiesByName()
+    {
+        $requestMock = \Mockery::mock(Request::class);
+        $cityServiceMock = \Mockery::mock(CityService::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+        $builderMock = \Mockery::mock(Builder::class);
+        $countryMock = \Mockery::mock(Country::class);
+        $paginatorMock = \Mockery::mock(Paginator::class);
+        $countryId = "1";
+
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('name')
+            ->andReturn("unit-test");
+        $cityServiceMock->shouldReceive('filterCity')
+            ->once()
+            ->with($countryId, "unit-test")
+            ->andReturn($builderMock);
+        $builderMock->shouldReceive('paginate')
+            ->once()
+            ->with(50)
+            ->andReturn($paginatorMock);
+        $countryServiceMock->shouldReceive('getById')
+            ->once()
+            ->with($countryId)
+            ->andReturn($countryMock);
+
+        $cityController = new CityController();
+        $result = $cityController->getCitiesByCountry($countryId, $requestMock, $cityServiceMock, $countryServiceMock);
         $this->assertEquals("cities", $result->name());
         $this->assertEquals($paginatorMock, $result->getData()['cities']);
         $this->assertEquals($countryMock, $result->getData()['country']);

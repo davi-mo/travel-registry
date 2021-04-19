@@ -76,6 +76,19 @@ class CityService
     }
 
     /**
+     * @param string $countryId
+     * @param string $name
+     * @return Builder
+     */
+    public function filterCity(string $countryId, string $name) : Builder
+    {
+        return City::where([
+            ["country_id", $countryId],
+            ["name", "LIKE", "%$name%"]
+        ]);
+    }
+
+    /**
      * @param Country $country
      * @param array $cities
      */

@@ -16,10 +16,17 @@ class CityController extends Controller
      */
     public function getCitiesByCountry(
         string $countryId,
+        Request $request,
         CityService $cityService,
         CountryService $countryService
     ) : View {
-        $cities = $cityService->getByCountry($countryId)->paginate(50);
+        $name = $request->get('name');
+        if ($name) {
+            $cities = $cityService->filterCity($countryId, $name)->paginate(50);
+        } else {
+            $cities = $cityService->getByCountry($countryId)->paginate(50);
+        }
+
         $country = $countryService->getById($countryId);
         return view("cities")->with("cities", $cities)->with("country", $country);
     }
