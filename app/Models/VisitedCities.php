@@ -27,4 +27,13 @@ class VisitedCities extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    /**
+     * @return string
+     */
+    public function formattedVisitedAt() : string
+    {
+        return $this->visited_at ?
+            date_format(\DateTime::createFromFormat('Y-m-d', $this->visited_at), 'd-m-Y') : "";
+    }
 }

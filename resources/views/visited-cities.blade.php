@@ -19,7 +19,7 @@
                     <tr>
                         <td class="text-left">{{ $visitedCity->city?->name }}</td>
                         <td class="text-left">{{ $visitedCity->city?->country?->name }}</td>
-                        <td class="text-left">{{ $visitedCity->visited_at }}</td>
+                        <td class="text-left">{{ $visitedCity->formattedVisitedAt() }}</td>
                         <td class="text-center">
                             <div class="btn-group mr-2" role="group">
                                 <form action="{{ route('deleteVisitedCity', ['visitedCityId' => $visitedCity->id]) }}" onsubmit="return confirm('Do you really want to delete this visited city?');" method="POST">
