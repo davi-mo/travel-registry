@@ -23,11 +23,16 @@ class CountryControllerTest extends TestCase
      */
     public function testGetCountriesByRegion()
     {
+        $requestMock = \Mockery::mock(Request::class);
         $countryServiceMock = \Mockery::mock(CountryService::class);
         $builderMock = \Mockery::mock(Builder::class);
         $paginatorMock = \Mockery::mock(Paginator::class);
         $regionId = "4";
 
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('term')
+            ->andReturnNull();
         $countryServiceMock->shouldReceive('getByRegion')
             ->once()
             ->with($regionId)
@@ -38,7 +43,38 @@ class CountryControllerTest extends TestCase
             ->andReturn($paginatorMock);
 
         $countryController = new CountryController();
-        $result = $countryController->getCountriesByRegion($regionId, $countryServiceMock);
+        $result = $countryController->getCountriesByRegion($regionId, $requestMock, $countryServiceMock);
+        $this->assertEquals("countries", $result->name());
+        $this->assertEquals($paginatorMock, $result->getData()['countries']);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CountryController::getCountriesByRegion
+     */
+    public function testFilterCountries()
+    {
+        $requestMock = \Mockery::mock(Request::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+        $builderMock = \Mockery::mock(Builder::class);
+        $paginatorMock = \Mockery::mock(Paginator::class);
+        $regionId = "4";
+        $term = "unit-test-country-name";
+
+        $requestMock->shouldReceive('get')
+            ->once()
+            ->with('term')
+            ->andReturn($term);
+        $countryServiceMock->shouldReceive('filterCountry')
+            ->once()
+            ->with($regionId, $term)
+            ->andReturn($builderMock);
+        $builderMock->shouldReceive('paginate')
+            ->once()
+            ->with(30)
+            ->andReturn($paginatorMock);
+
+        $countryController = new CountryController();
+        $result = $countryController->getCountriesByRegion($regionId, $requestMock, $countryServiceMock);
         $this->assertEquals("countries", $result->name());
         $this->assertEquals($paginatorMock, $result->getData()['countries']);
     }

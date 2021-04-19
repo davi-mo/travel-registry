@@ -92,4 +92,17 @@ class CountryService
     {
         return Country::find($countryId);
     }
+
+    /**
+     * @param string $regionId
+     * @param string $term
+     * @return Builder
+     */
+    public function filterCountry(string $regionId, string $term) : Builder
+    {
+        return Country::where('region_id', $regionId)->where(function ($query) use ($term) {
+            $query->where('name', 'LIKE', "%$term%");
+            $query->orWhere('code', 'LIKE', "%$term%");
+        });
+    }
 }

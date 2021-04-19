@@ -17,10 +17,15 @@ class CountryController extends Controller
      */
     public function getCountriesByRegion(
         string $regionId,
+        Request $request,
         CountryService $countryService
     ) : View {
-        $countries = $countryService->getByRegion($regionId)->paginate(30);
-        return view("countries")->with('countries', $countries);
+        $term = $request->get('term');
+        $countries = $term ?
+            $countryService->filterCountry($regionId, $term)->paginate(30) :
+            $countryService->getByRegion($regionId)->paginate(30);
+
+        return view("countries")->with('countries', $countries)->with('regionId', $regionId);
     }
 
     /**

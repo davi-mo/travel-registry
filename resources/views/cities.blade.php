@@ -6,15 +6,15 @@
             <div class="text-right link-back">
                 <a href="{{ route('getCountriesByRegion', ['regionId' => $country->region_id]) }}">Back to country page</a>
             </div>
+            <form action="{{ route('getCitiesByCountry', ['countryId' => $country->id]) }}">
+                @csrf
+                <div class="form-group">
+                    <input id="filterCityName" type="text" name="name" placeholder="Search for city names.." title="Type in a name">
+                </div>
+            </form>
             @if($cities->isEmpty())
                 <p>There are no cities for the country {{ $country->name }}.</p>
             @else
-                <form action="{{ route('getCitiesByCountry', ['countryId' => $country->id]) }}">
-                    @csrf
-                    <div class="form-group">
-                        <input id="filterCityName" type="text" name="name" placeholder="Search for city names.." title="Type in a name">
-                    </div>
-                </form>
                 <table class="table table-hover">
                     <thead>
                     <tr>

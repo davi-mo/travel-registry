@@ -46,6 +46,37 @@ class CountryControllerTest extends TestCase
     }
 
     /**
+     * @covers \App\Http\Controllers\CountryController::getCountriesByRegion
+     */
+    public function testFilterCountry()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $country = Country::inRandomOrder()->first();
+        $country->region_id = 4;
+        $country->save();
+
+        $response = $this->get(route('getCountriesByRegion', ["regionId" => $country->region_id]) . "?term=" . $country->code);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf(Response::class, $response->baseResponse);
+        $this->assertEquals(1, $response->baseResponse->getOriginalContent()->getData()['countries']->count());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CountryController::getCountriesByRegion
+     */
+    public function testFilterCountriesWithInvalidRegion()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('getCountriesByRegion', ["regionId" => 99999]) . "?term=unittest");
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
+        $this->assertEquals("The region is invalid", $response->exception->getMessage());
+    }
+
+    /**
      * @covers \App\Http\Controllers\CountryController::editCountryPage
      */
     public function testEditCountryPage()

@@ -6,6 +6,12 @@
             <div class="text-right link-back">
                 <a href="{{ route('getAllRegions') }}">Back to region page</a>
             </div>
+            <form action="{{ route('getCountriesByRegion', ['regionId' => $regionId]) }}">
+                @csrf
+                <div class="form-group">
+                    <input id="filterCountryTerm" type="text" name="term" placeholder="Search for country names or codes.." title="Type in a name or a code">
+                </div>
+            </form>
             @if($countries->isEmpty())
                 <p>There are no countries for the selected region.</p>
             @else

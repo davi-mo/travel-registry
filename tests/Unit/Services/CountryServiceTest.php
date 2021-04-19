@@ -125,4 +125,16 @@ class CountryServiceTest extends TestCase
         $this->assertNotNull($returnedCountry);
         $this->assertEquals($country, $returnedCountry);
     }
+
+    /**
+     * @covers \App\Services\CountryService::filterCountry
+     */
+    public function testFilterCountry()
+    {
+        $country = Country::all()->first();
+        $countryService = new CountryService();
+        $countries = $countryService->filterCountry($country->region_id, $country->name)->get();
+        $this->assertNotNull($countries);
+        $this->assertCount(1, $countries);
+    }
 }
