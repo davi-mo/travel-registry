@@ -101,6 +101,7 @@ class CityController extends Controller
 
         return view("next-visited-city")
             ->with("regions", $regions)
+            ->with("selectedRegionId", $region)
             ->with("countryName", $countryName)
             ->with("cityName", $cityName);
     }
