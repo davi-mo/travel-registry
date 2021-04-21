@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;
@@ -169,5 +170,36 @@ class CityControllerTest extends TestCase
         $response = $this->get(route('markVisitedCity', ['cityId' => "9999"]));
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->exception->getCode());
         $this->assertEquals("The city is invalid", $response->exception->getMessage());
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::nextVisitedCity
+     */
+    public function testNextVisitedCityWithoutSelectionRegion()
+    {
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('nextVisitedCity'));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf(Response::class, $response->baseResponse);
+        $this->assertEmpty($response->baseResponse->getOriginalContent()->getData()['countryName']);
+        $this->assertEmpty($response->baseResponse->getOriginalContent()->getData()['cityName']);
+    }
+
+    /**
+     * @covers \App\Http\Controllers\CityController::nextVisitedCity
+     */
+    public function testNextVisitedCityWithRegion()
+    {
+        $region = Region::whereName("Europe")->first();
+        $regionId = $region->id;
+        $user = User::all()->first();
+        $this->be($user);
+
+        $response = $this->get(route('nextVisitedCity') . "?region=$regionId");
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf(Response::class, $response->baseResponse);
+        $this->assertNotEmpty($response->baseResponse->getOriginalContent()->getData()['countryName']);
     }
 }

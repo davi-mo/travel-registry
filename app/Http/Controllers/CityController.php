@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\CityService;
 use App\Services\CountryService;
+use App\Services\RegionService;
+use App\Services\VisitedCitiesService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -69,5 +71,37 @@ class CityController extends Controller
 
         $cityService->updateCity($city, $cityName, $cityState);
         return redirect()->to("/country/$countryId/cities");
+    }
+
+    /**
+     * @param Request $request
+     * @param RegionService $regionService
+     * @param CountryService $countryService
+     * @param VisitedCitiesService $visitedCitiesService
+     * @param CityService $cityService
+     * @return View
+     */
+    public function nextVisitedCity(
+        Request $request,
+        RegionService $regionService,
+        CountryService $countryService,
+        VisitedCitiesService $visitedCitiesService,
+        CityService $cityService,
+    ) : View {
+        $countryName = "";
+        $cityName = "";
+        $regions = $regionService->getActiveRegions();
+        $region = $request->get('region');
+        if ($region) {
+            $country = $countryService->getRandomCountry($region);
+            $countryName = $country->name;
+            $visitedCitiesIds = $visitedCitiesService->getVisitedCitiesIds(auth()->user()->id);
+            $cityName = $cityService->getRandomCityName($country->id, $visitedCitiesIds);
+        }
+
+        return view("next-visited-city")
+            ->with("regions", $regions)
+            ->with("countryName", $countryName)
+            ->with("cityName", $cityName);
     }
 }

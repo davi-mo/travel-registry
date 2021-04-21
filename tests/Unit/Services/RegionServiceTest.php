@@ -93,4 +93,15 @@ class RegionServiceTest extends TestCase
         $region = $regionService->getRegionById("9999");
         $this->assertNull($region);
     }
+
+    /**
+     * @covers \App\Services\RegionService::getActiveRegions()
+     */
+    public function testGetActiveRegions()
+    {
+        $regionService = new RegionService();
+        $regions = $regionService->getActiveRegions();
+        $this->assertNotNull($regions);
+        $this->assertCount(1, $regions->all());
+    }
 }

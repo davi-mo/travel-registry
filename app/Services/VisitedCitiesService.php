@@ -28,6 +28,21 @@ class VisitedCitiesService
     }
 
     /**
+     * @param int $userId
+     * @return array
+     */
+    public function getVisitedCitiesIds(int $userId) : array
+    {
+        $visitedCitiesIds = [];
+        $visitedCities = $this->getByUser($userId);
+        foreach ($visitedCities->all() as $visitedCity) {
+            $visitedCitiesIds[] = $visitedCity->id;
+        }
+
+        return $visitedCitiesIds;
+    }
+
+    /**
      * @param VisitedCities $visitedCity
      * @param City $city
      * @param User $user

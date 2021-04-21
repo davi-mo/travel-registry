@@ -32,6 +32,14 @@ class RegionService
     }
 
     /**
+     * @return Collection
+     */
+    public function getActiveRegions() : Collection
+    {
+        return Region::whereActive(true)->get();
+    }
+
+    /**
      * @param string $regionId
      * @return Region|null
      */

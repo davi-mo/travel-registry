@@ -153,4 +153,17 @@ class VisitedCitiesServiceTest extends TestCase
         $visitedCitiesService = new VisitedCitiesService();
         $visitedCitiesService->saveVisitedCity($visitedCityMock, $cityMock, $userMock);
     }
+
+    /**
+     * @covers \App\Services\VisitedCitiesService::getVisitedCitiesIds
+     */
+    public function testGetVisitedCitiesIds()
+    {
+        $visitedCity = VisitedCities::all()->first();
+
+        $visitedCitiesService = new VisitedCitiesService();
+        $visitedCities = $visitedCitiesService->getVisitedCitiesIds($visitedCity->user_id);
+        $this->assertNotEmpty($visitedCities);
+        $this->assertContains($visitedCity->id, $visitedCities);
+    }
 }

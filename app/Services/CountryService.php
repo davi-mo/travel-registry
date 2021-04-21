@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Country;
 use App\Models\Region;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class CountryService
 {
@@ -15,6 +15,7 @@ class CountryService
         "Moldova (Republic of)" => "Moldova",
         "Republic of Kosovo" => "Kosovo",
         "Russian Federation" => "Russia",
+        "Serbia" => "Serbia and Montenegro",
         "United Kingdom of Great Britain and Northern Ireland" => "United Kingdom"
     ];
 
@@ -104,5 +105,33 @@ class CountryService
             $query->where('name', 'LIKE', "%$term%");
             $query->orWhere('code', 'LIKE', "%$term%");
         });
+    }
+
+    /**
+     * @param string $regionId
+     * @return Country
+     */
+    public function getRandomCountry(string $regionId) : Country
+    {
+        $countryName = $this->getRandomCountryWithCities($regionId);
+        return $this->getByName($countryName);
+    }
+
+    /**
+     * @param string $regionId
+     * @return string|null
+     */
+    protected function getRandomCountryWithCities(string $regionId) : ?string
+    {
+        $randomCountry = DB::table('cities')
+            ->join('countries', 'cities.country_id', '=', 'countries.id')
+            ->select('countries.name AS name')
+            ->where('countries.region_id', '=', $regionId)
+            ->distinct()
+            ->inRandomOrder()
+            ->get()
+            ->first();
+
+        return $randomCountry?->name;
     }
 }

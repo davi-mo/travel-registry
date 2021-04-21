@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\City;
 use App\Models\Country;
+use App\Models\VisitedCities;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\RestCityService;
@@ -199,5 +200,20 @@ class CityServiceTest extends TestCase
         $cityService = new CityService($restCityServiceMock, $countryServiceMock);
         $returnedCities = $cityService->filterCity($city->country_id, $city->name)->get();
         $this->assertNotNull($returnedCities);
+    }
+
+    /**
+     * @covers \App\Services\CityService::getRandomCityName
+     */
+    public function testGetRandomCityName()
+    {
+        $restCityServiceMock = \Mockery::mock(RestCityService::class);
+        $countryServiceMock = \Mockery::mock(CountryService::class);
+        $city = City::inRandomOrder()->first();
+        $visitedCity = VisitedCities::inRandomOrder()->first();
+
+        $cityService = new CityService($restCityServiceMock, $countryServiceMock);
+        $cityName = $cityService->getRandomCityName($city->country_id, [$visitedCity->id]);
+        $this->assertNotNull($cityName);
     }
 }

@@ -137,4 +137,16 @@ class CountryServiceTest extends TestCase
         $this->assertNotNull($countries);
         $this->assertCount(1, $countries);
     }
+
+    /**
+     * @covers \App\Services\CountryService::getRandomCountry
+     * @covers \App\Services\CountryService::getRandomCountryWithCities
+     */
+    public function testGetRandomCountryWithCities()
+    {
+        $country = Country::inRandomOrder()->first();
+        $countryService = new CountryService();
+        $randomCountry = $countryService->getRandomCountry($country->region_id);
+        $this->assertNotNull($randomCountry);
+    }
 }

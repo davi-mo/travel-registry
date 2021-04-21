@@ -48,4 +48,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/city/{cityId}/mark-visited','\App\Http\Controllers\CityController@markVisitedCity')->name('markVisitedCity');
         Route::post('/city/{cityId}/visited', '\App\Http\Controllers\VisitedCityController@saveVisitedCity')->name('saveVisitedCity');
     });
+
+    Route::get("/visited-cities/next", '\App\Http\Controllers\CityController@nextVisitedCity')->name("nextVisitedCity");
 });

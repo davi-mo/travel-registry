@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\City;
 use App\Models\Country;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class CityService
 {
@@ -86,6 +87,24 @@ class CityService
             ["country_id", $countryId],
             ["name", "LIKE", "%$name%"]
         ]);
+    }
+
+    /**
+     * @param string $countryId
+     * @param array $visitedCitiesIds
+     * @return string|null
+     */
+    public function getRandomCityName(string $countryId, array $visitedCitiesIds) : ?string
+    {
+        $randomCity = DB::table('cities')
+            ->select('name')
+            ->where('country_id', '=', $countryId)
+            ->whereNotIn('id', $visitedCitiesIds)
+            ->inRandomOrder()
+            ->get()
+            ->first();
+
+        return $randomCity?->name;
     }
 
     /**
