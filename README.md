@@ -1,11 +1,10 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Travel Registry
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Welcome to the travel registry. This project is responsible to log all your travels and plan the next one.
+
+## Technology
+
+This project was build using Laravel. To learn more about it, check the next section.
 
 ## About Laravel
 
@@ -21,42 +20,46 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Development
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+To develop at this project we use [laravel sail](https://laravel.com/docs/8.x/sail) which was based in docker.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Before start development, you should run:
+* `cp env.example .env` - for local development
+* `cp env.example .env.testing` - for unit tests
 
-## Laravel Sponsors
+## Debug
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+To debug with PHPStorm, check the [PHPStorm Configuration section](https://marcuschristiansen.medium.com/setup-xdebug-in-laravel-8-like-a-boss-ea7582ce01ce) of this article.
 
-### Premium Partners
+## Login
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+To login, we use the `laravel/socialite` package. You can log in using your Google account.
 
-## Contributing
+**Important Note:** Ask the author for the google credentials to be able to log in.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Commands
+
+We consume two APIs, one to save the countries, and the other to save the correspondent cities. To use that, it was created two commands for that. Check bellow:
+* You can run `sail php artisan country:populate {regionName}`. The regionName is optional, if not set the default one is Europe. The others regions can be found [here](https://restcountries.eu/#api-endpoints-region) together with the documentation for the API.
+* To run the other command, you can do: `sail php artisan city:populate`. The documentation of the other API can be found [here](https://documenter.getpostman.com/view/1134062/T1LJjU52?version=latest#intro). - This command can take a while.
+
+## Frontend
+
+The views are created using [blade](https://laravel.com/docs/8.x/blade). The views, css and javascript files are inside the `resources` folder. After you change something at the frontend, you can run `sail npm run dev` which will copy all corresponding *.css and *.js files to the public folder. 
+
+## Unit Tests
+
+The project is covered by unit tests. To run them, you can use: `sail test`. Use as much as unit tests as possible.
 
 ## Code of Conduct
 
 In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Author
+
+Davi Menezes
