@@ -10,7 +10,6 @@ use Closure;
 
 class ValidateVisitedCity
 {
-    /** @var VisitedCitiesService */
     private VisitedCitiesService $visitedCitiesService;
 
     /**
@@ -32,10 +31,6 @@ class ValidateVisitedCity
     public function handle(Request $request, Closure $next)
     {
         $visitedCityId = $request->route()->parameter('visitedCityId');
-        if (!$visitedCityId) {
-            throw NotFoundException::becauseVisitedCityIsInvalid();
-        }
-
         $visitedCity = $this->visitedCitiesService->getById($visitedCityId);
         if (!$visitedCity) {
             throw NotFoundException::becauseVisitedCityIsInvalid();

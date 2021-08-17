@@ -9,7 +9,6 @@ use Closure;
 
 class VerifyExistingCity
 {
-    /** @var CityService */
     private CityService $cityService;
 
     /**

@@ -56,6 +56,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyExistingCity::class,
         ],
 
+        'existing-user' => [
+            \App\Http\Middleware\VerifyExistingUser::class,
+        ],
+
         'validate-visited-city' => [
             \App\Http\Middleware\ValidateVisitedCity::class,
         ],

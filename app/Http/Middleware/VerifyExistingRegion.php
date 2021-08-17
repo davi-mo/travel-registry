@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class VerifyExistingRegion
 {
-    /** @var RegionService */
     private RegionService $regionService;
 
     /**

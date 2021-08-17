@@ -28,34 +28,6 @@ class ValidateVisitedCityTest extends TestCase
      * @covers \App\Http\Middleware\ValidateVisitedCity::__construct
      * @covers \App\Http\Middleware\ValidateVisitedCity::handle
      */
-    public function testValidateVisitedCityWithoutParameter()
-    {
-        $this->expectException(NotFoundException::class);
-        $this->expectExceptionCode(Response::HTTP_NOT_FOUND);
-
-        $requestMock = \Mockery::mock(Request::class);
-        $visitedCityServiceMock = \Mockery::mock(VisitedCitiesService::class);
-        $routeMock = \Mockery::mock(Route::class);
-
-        $requestMock->shouldReceive('route')
-            ->once()
-            ->withNoArgs()
-            ->andReturn($routeMock);
-        $routeMock->shouldReceive('parameter')
-            ->once()
-            ->with('visitedCityId')
-            ->andReturnNull();
-        $next = function () {
-        };
-
-        $validateVisitedCity = new ValidateVisitedCity($visitedCityServiceMock);
-        $validateVisitedCity->handle($requestMock, $next);
-    }
-
-    /**
-     * @covers \App\Http\Middleware\ValidateVisitedCity::__construct
-     * @covers \App\Http\Middleware\ValidateVisitedCity::handle
-     */
     public function testValidateVisitedCityNotFound()
     {
         $this->expectException(NotFoundException::class);

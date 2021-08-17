@@ -11,7 +11,7 @@
             </div>
             <div class="form-group">
                 <label for="countryCode">Code:<span>*</span></label>
-                <input id="countryName" type="text" name="code" value="{{ $country->code }}" class="form-control form-control-sm" form="form-country" required maxlength="2">
+                <input id="countryCode" type="text" name="code" value="{{ $country->code }}" class="form-control form-control-sm" form="form-country" required maxlength="2">
             </div>
             <div class="form-group">
                 <label for="countryCapital">Capital:<span>*</span></label>

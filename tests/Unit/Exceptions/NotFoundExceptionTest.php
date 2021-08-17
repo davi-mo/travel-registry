@@ -67,4 +67,16 @@ class NotFoundExceptionTest extends TestCase
         $this->assertEquals('Not Found', $invalidCountryException->getTitle());
         $this->assertEquals('The visited city is invalid', $invalidCountryException->getDetail());
     }
+
+    /**
+     * @covers \App\Exceptions\NotFoundException::becauseUserIsInvalid
+     */
+    public function testBecauseUserIsInvalid()
+    {
+        $invalidUserException = NotFoundException::becauseUserIsInvalid();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $invalidUserException->getHttpStatusCode());
+        $this->assertEquals('Not Found', $invalidUserException->getTitle());
+        $this->assertEquals('The user is invalid', $invalidUserException->getDetail());
+    }
 }

@@ -50,4 +50,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get("/visited-cities/next", '\App\Http\Controllers\CityController@nextVisitedCity')->name("nextVisitedCity");
+    Route::get("/user", '\App\Http\Controllers\UserController@getUser')->name("getUser");
+
+    Route::group(['middleware' => ['existing-user']], function () {
+        Route::put("/user/{userId}/update", '\App\Http\Controllers\UserController@updateUser')->name("updateUser");
+    });
 });

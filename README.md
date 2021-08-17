@@ -36,7 +36,7 @@ To debug with PHPStorm, check the [PHPStorm Configuration section](https://marcu
 
 To login, we use the `laravel/socialite` package. You can log in using your Google account.
 
-**Important Note:** Ask the author for the google credentials to be able to log in.
+**Important Note:** Ask the author for the Google credentials to be able to log in.
 
 ## Commands
 

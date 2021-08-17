@@ -46,4 +46,11 @@ class NotFoundException extends BaseException
         $invalidVisitedCity->setDetail("The visited city is invalid");
         return $invalidVisitedCity;
     }
+
+    public static function becauseUserIsInvalid() : NotFoundException
+    {
+        $invalidUser = new NotFoundException();
+        $invalidUser->setDetail("The user is invalid");
+        return $invalidUser;
+    }
 }

@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class VerifyExistingCountry
 {
-    /** @var CountryService */
     private CountryService $countryService;
 
     public function __construct(CountryService $countryService)
