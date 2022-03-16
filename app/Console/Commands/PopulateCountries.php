@@ -58,7 +58,7 @@ class PopulateCountries extends Command
      */
     public function handle()
     {
-        $regionName = ucfirst($this->argument('region'));
+        $regionName = lcfirst($this->argument('region'));
         $region = $this->regionService->getRegion($regionName);
 
         $countries = $this->restCountryService->getCountries($region->name);

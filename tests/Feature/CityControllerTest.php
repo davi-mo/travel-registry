@@ -192,8 +192,10 @@ class CityControllerTest extends TestCase
      */
     public function testNextVisitedCityWithRegion()
     {
-        $region = Region::whereName("Europe")->first();
-        $regionId = $region->id;
+        $city = City::all()->first();
+        $country = $city->country;
+        $regionId = $country->region_id;
+
         $user = User::all()->first();
         $this->be($user);
 

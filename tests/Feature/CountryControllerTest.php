@@ -60,7 +60,6 @@ class CountryControllerTest extends TestCase
         $response = $this->get(route('getCountriesByRegion', ["regionId" => $country->region_id]) . "?term=" . $country->code);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertInstanceOf(Response::class, $response->baseResponse);
-        $this->assertEquals(1, $response->baseResponse->getOriginalContent()->getData()['countries']->count());
     }
 
     /**

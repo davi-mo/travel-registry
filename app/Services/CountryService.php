@@ -9,27 +9,23 @@ use Illuminate\Support\Facades\DB;
 
 class CountryService
 {
-    protected const DIFFERENT_COUNTRY_NAMES = [
-        "Åland Islands" => "Aland Islands",
-        "Macedonia (the former Yugoslav Republic of)" => "Macedonia",
-        "Moldova (Republic of)" => "Moldova",
-        "Republic of Kosovo" => "Kosovo",
-        "Russian Federation" => "Russia",
-        "Serbia" => "Serbia and Montenegro",
-        "United Kingdom of Great Britain and Northern Ireland" => "United Kingdom"
-    ];
-
     /**
      * @param array $data
      */
     public function populateCountries(array $data) : void
     {
         foreach ($data as $countries) {
-            $countryName = isset($this::DIFFERENT_COUNTRY_NAMES[$countries['name']]) ?? $countries['name'];
+            $countryName = $countries['name']['common'];
+            if ($countryName === "Åland Islands") {
+                $countryName = "Aland Islands";
+            }
+
+            $capital = isset($countries['capital']) ? reset($countries['capital']) : "";
+            $countryCode = isset($countries['cca2']) ? $countries['cca2'] : "";
             $this->saveCountry(
                 $countryName,
-                $countries['alpha2Code'],
-                $countries['capital'],
+                $countryCode,
+                $capital,
                 $countries['region'],
             );
         }
@@ -43,12 +39,10 @@ class CountryService
      */
     public function saveCountry(string $name, string $code, string $capital, string $regionName) : void
     {
+        $region = Region::whereName($regionName)->first();
         $country = Country::whereName($name)->first();
-        if (!$country) {
-            $country = new Country();
-            $region = Region::whereName($regionName)->first();
-            $this->updateCountry($country, $region, $name, $code, $capital);
-        }
+
+        $this->updateCountry($country ?? app()->make(Country::class), $region, $name, $code, $capital);
     }
 
     /**
@@ -82,7 +76,7 @@ class CountryService
      */
     public function getByRegion(string $regionId) : Builder
     {
-        return Country::where('region_id', $regionId);
+        return Country::where('region_id', $regionId)->orderBy("name");
     }
 
     /**

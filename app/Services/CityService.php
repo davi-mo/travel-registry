@@ -116,7 +116,7 @@ class CityService
         foreach ($cities as $cityName) {
             $city = $this->getByName($cityName);
             if (!$city) {
-                $city = new City();
+                $city = app()->make(City::class);
                 $city->name = $cityName;
                 $city->country_id = $country->id;
                 $city->save();

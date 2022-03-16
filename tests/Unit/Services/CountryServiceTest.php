@@ -25,9 +25,9 @@ class CountryServiceTest extends TestCase
     {
         $data = [
             [
-                'name' => 'country-name',
-                'alpha2Code' => 'cn',
-                'capital' => 'capital',
+                'name' => ['common' => 'country-name'],
+                'cca2' => 'cn',
+                'capital' => ['capital'],
                 'region' => 'Europe',
             ]
         ];

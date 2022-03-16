@@ -4,7 +4,7 @@ namespace App\Services;
 
 class RestCountryService
 {
-    private const URL = "https://restcountries.eu/rest/v2/region/";
+    private const URL = "https://restcountries.com/v3.1/region/";
 
     /**
      * @param string $region

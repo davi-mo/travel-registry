@@ -35,7 +35,7 @@ class PopulateCountriesTest extends TestCase
         $regionServiceMock = \Mockery::mock(RegionService::class);
         $restCountryServiceMock = \Mockery::mock(RestCountryService::class);
         $inputMock = \Mockery::mock(InputInterface::class);
-        $regionName = "Europe";
+        $regionName = "europe";
         $regionMock = \Mockery::mock(Region::class);
 
         $inputMock->shouldReceive('getArgument')
