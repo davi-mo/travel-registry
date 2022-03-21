@@ -52,7 +52,13 @@ The views are created using [blade](https://laravel.com/docs/8.x/blade). The vie
 
 ## Unit Tests
 
-The project is covered by unit tests. To run them, you can use: `sail test`. Use as much as unit tests as possible.
+The project is covered by unit tests. To run them, you can use: `sail test`.
+
+To be able to run the unit tests for the first time, you need to manually create the test database. To do that, run `sail mysql` and then:
+
+```mysql
+CREATE DATABASE `travel_registry_test`;
+```
 
 ## Code of Conduct
 
